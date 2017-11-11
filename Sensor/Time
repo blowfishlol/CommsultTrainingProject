@@ -1,0 +1,6 @@
+public class Temperature{
+  class Temperature(double temp){
+    super();
+  }
+
+}
