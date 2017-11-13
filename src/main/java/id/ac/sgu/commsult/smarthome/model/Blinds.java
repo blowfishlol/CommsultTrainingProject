@@ -1,4 +1,4 @@
-package ac.id.sgu.commsult.smarthome.model;
+package id.ac.sgu.commsult.smarthome.model;
 
 public class Blinds {
 

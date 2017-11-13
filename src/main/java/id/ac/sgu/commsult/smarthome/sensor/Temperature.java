@@ -1,14 +1,19 @@
-package ac.id.sgu.commsult.smarthome.sensor;
+package id.ac.sgu.commsult.smarthome.sensor;
 
 import java.util.Observable;
 import java.util.Random;
 
-public class Temperature extends Observable implements Runnable {
-	private double temp = 0;
+import id.ac.sgu.commsult.smartphone.properties.Properties;
 
-	Temperature(double temp) {
+public class Temperature extends Observable implements Runnable {
+
+	private double temp = 0;
+	private char location;
+
+	Temperature(double temp, char location) {
 		super();
 		this.temp = temp;
+		this.location = location;
 	}
 
 	public void run() {
@@ -19,7 +24,7 @@ public class Temperature extends Observable implements Runnable {
 			while (true) {
 
 				refresh();
-				thread.sleep(5000);
+				thread.sleep(Properties.SLEEP_TIME);
 			}
 		} catch (Exception e) {
 		}
@@ -40,5 +45,16 @@ public class Temperature extends Observable implements Runnable {
 	public void setTemp(double temp) {
 		this.temp = temp;
 	}
+	
+	public char getLocation() {
+		return location;
+	}
+
+	public void setLocation(char location) {
+		this.location = location;
+		setChanged();
+		notifyObservers();
+	}
+
 
 }

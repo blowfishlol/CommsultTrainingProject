@@ -1,4 +1,4 @@
-package ac.id.sgu.commsult.smarthome.sensor;
+package id.ac.sgu.commsult.smarthome.sensor;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,18 +6,23 @@ import java.util.concurrent.*;
 
 public class SensorReader implements Observer {
 
-	private Temperature temperatureSensor;
+	private Temperature temperatureOutsideSensor;
+	private Temperature temperatureInsideSensor;
 	private WindSpeed windSpeedSensor;
 	private Time timeSensor;
 
-	private double temperature;
+	private double temperatureOutside;
+	private double temperatureInside;
 	private double windSpeed;
 	private int time;
 
 	public SensorReader() {
 
-		temperatureSensor = new Temperature(0);
-		temperatureSensor.addObserver(this);
+		temperatureOutsideSensor = new Temperature(0,'o');
+		temperatureOutsideSensor.addObserver(this);
+		
+		temperatureInsideSensor = new Temperature(0,'i');
+		temperatureInsideSensor.addObserver(this);
 
 		windSpeedSensor = new WindSpeed(0);
 		windSpeedSensor.addObserver(this);
@@ -29,7 +34,12 @@ public class SensorReader implements Observer {
 
 		service.execute(new Runnable() {
 			public void run() {
-				temperatureSensor.run();
+				temperatureInsideSensor.run();
+			}
+		});
+		service.execute(new Runnable() {
+			public void run() {
+				temperatureOutsideSensor.run();
 			}
 		});
 		service.execute(new Runnable() {
@@ -50,12 +60,21 @@ public class SensorReader implements Observer {
 	/*
 	 * Setter and getters for private variables
 	 */
-	public double getTemperature() {
-		return temperature;
+
+	public double getTemperatureOutside() {
+		return temperatureOutside;
 	}
 
-	public void setTemperature(double temperature) {
-		this.temperature = temperature;
+	public void setTemperatureOutside(double temperatureOutside) {
+		this.temperatureOutside = temperatureOutside;
+	}
+
+	public double getTemperatureInside() {
+		return temperatureInside;
+	}
+
+	public void setTemperatureInside(double temperatureInside) {
+		this.temperatureInside = temperatureInside;
 	}
 
 	public double getWindSpeed() {
@@ -85,8 +104,14 @@ public class SensorReader implements Observer {
 			System.out.println("Wind update " + arg);
 			this.windSpeed = (Double) arg;
 		} else if (o instanceof Temperature) {
-			System.out.println("Temp update " + arg);
-			this.temperature = (Double) arg;
+			Temperature temp = (Temperature)o;
+			if(temp.getLocation() == 'i'){
+				System.out.println("Inside temp update " + arg);
+				this.temperatureInside = (Double)arg;
+			}else{
+				System.out.println("Outside temp update" + arg);
+				this.temperatureOutside = (Double)arg;
+			}
 		}
 
 	}

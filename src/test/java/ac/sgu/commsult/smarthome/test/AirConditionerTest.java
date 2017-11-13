@@ -14,30 +14,32 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import ac.id.sgu.commsult.smarthome.controller.AirConditionerController;
+import id.ac.sgu.commsult.smarthome.controller.AirConditionerController;
 
 @RunWith(Parameterized.class)
 public class AirConditionerTest {
 
-	@Parameters(name = "temp {0} wind speed {1} time {2} expected {3}")
+	@Parameters(name = "temp inside {0} temp outisde {2} wind speed {1} time {2} expected {3}")
 	public static Collection<Object[]> data(){
 		
 		return Arrays.asList(new Object[][] {
-			{50, 200 , 1700, true},
-			{14, 200 , 1700, false}
+			{50, 60, 200 , 1700, true},
+			{14, 30, 200 , 1700, false}
 			
 		});
 		
 	}
 
-	private double temp;
+	private double tempInside;
+	private double tempOutside;
 	private double windSpeed;
 	private int time;
 	private boolean expected;
 	private AirConditionerController acc;
 	
-	public AirConditionerTest(double temp, double windSpeed, int time, boolean expected){
-		this.temp = temp;
+	public AirConditionerTest(double tempInside, double tempOutside,  double windSpeed, int time, boolean expected){
+		this.tempInside = tempInside;
+		this.tempOutside = tempOutside;
 		this.windSpeed = windSpeed;
 		this.time = time;
 		this.expected = expected;
@@ -67,7 +69,7 @@ public class AirConditionerTest {
 
 	@Test
 	public void test() {
-		acc.giveUpdate(temp, windSpeed, time);
+		acc.giveUpdate(tempInside, tempOutside, windSpeed, time);
 	}
 
 }

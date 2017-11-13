@@ -1,4 +1,4 @@
-package ac.id.sgu.commsult.smarthome.controller;
+package id.ac.sgu.commsult.smarthome.controller;
 
 public abstract class DeviceController implements Controller{
 
@@ -19,7 +19,7 @@ public abstract class DeviceController implements Controller{
 	}
 	
 	public boolean isNight(int time){
-		return time > 1900 || time < 300;
+		return time >= 1900 || time < 400;
 	}
 	
 }

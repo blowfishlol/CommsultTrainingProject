@@ -1,6 +1,6 @@
-package ac.id.sgu.commsult.smarthome.main;
+package id.ac.sgu.commsult.smarthome.main;
 
-import ac.id.sgu.commsult.smarthome.controller.MainController;
+import id.ac.sgu.commsult.smarthome.controller.MainController;
 
 public class Runner {
 

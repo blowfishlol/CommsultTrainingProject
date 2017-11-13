@@ -1,7 +1,9 @@
-package ac.id.sgu.commsult.smarthome.sensor;
+package id.ac.sgu.commsult.smarthome.sensor;
 
 import java.util.Observable;
 import java.util.Random;
+
+import id.ac.sgu.commsult.smartphone.properties.Properties;
 
 public class Time extends Observable implements Runnable {
 	private int time = 0;
@@ -17,9 +19,10 @@ public class Time extends Observable implements Runnable {
 		try {
 			setTime(0);
 			while (true) {
-
-				refresh();
-				thread.sleep(5000);
+				if(!Properties.testingMode){
+					refresh();					
+				}
+				thread.sleep(Properties.SLEEP_TIME);
 			}
 		} catch (Exception e) {
 		}
@@ -43,6 +46,8 @@ public class Time extends Observable implements Runnable {
 
 	public void setTime(int time) {
 		this.time = time;
+		setChanged();
+		notifyObservers(time);
 	}
 
 }

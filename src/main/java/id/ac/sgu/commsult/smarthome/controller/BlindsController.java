@@ -1,6 +1,6 @@
-package ac.id.sgu.commsult.smarthome.controller;
+package id.ac.sgu.commsult.smarthome.controller;
 
-import ac.id.sgu.commsult.smarthome.model.Blinds;
+import id.ac.sgu.commsult.smarthome.model.Blinds;
 
 public class BlindsController extends DeviceController{
 
@@ -13,16 +13,12 @@ public class BlindsController extends DeviceController{
 
 	}
 
-	public void giveUpdate(double temp, double windSpeed, int time){
+	public void giveUpdate(double tempInside, double tempOutside, double windSpeed, int time){
 		
-		boolean givenCommand;
-		
-		if(isWindy(windSpeed) ||  isNight(time) || isHot(temp)){
+		if(isWindy(windSpeed) ||  isNight(time) || isHot(tempOutside)){
 			b.setOpen(false);
-			givenCommand = false;
 		}else{
 			b.setOpen(true);
-			givenCommand = true;
 		}
 		
 	}

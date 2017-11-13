@@ -1,7 +1,9 @@
-package ac.id.sgu.commsult.smarthome.sensor;
+package id.ac.sgu.commsult.smarthome.sensor;
 
 import java.util.Observable;
 import java.util.Random;
+
+import id.ac.sgu.commsult.smartphone.properties.Properties;
 
 public class WindSpeed extends Observable implements Runnable {
 	private double windSpeed = 0;
@@ -17,9 +19,10 @@ public class WindSpeed extends Observable implements Runnable {
 		thread.start();
 		try {
 			while (true) {
-
-				refresh();
-				thread.sleep(5000);
+				if(!Properties.testingMode){
+					refresh();					
+				}
+				thread.sleep(Properties.SLEEP_TIME);
 			}
 		} catch (Exception e) {
 		}
@@ -40,6 +43,8 @@ public class WindSpeed extends Observable implements Runnable {
 
 	public void setWind(double windSpeed) {
 		this.windSpeed = windSpeed;
+		setChanged();
+		notifyObservers(windSpeed);
 	}
 
 }
