@@ -31,13 +31,11 @@ public class Time extends Observable implements Runnable {
 	// get a new value for time and notifying observer
 	public void refresh() {
 		// System.out.println("Time: " + getTime());
-		if (time == 2400) {
+		if (time == 2300) {
 			setTime(0);
 		} else {
 			setTime(time + 100);
 		}
-		setChanged();
-		notifyObservers(time);
 	}
 
 	public int getTime() {
