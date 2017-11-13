@@ -11,46 +11,65 @@
 
 package id.ac.sgu.commsult.smarthome.ui;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import id.ac.sgu.commsult.smarthome.properties.Properties;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 public class Display extends javax.swing.JFrame implements ChangeListener {
 
-	private double tempSliderValue;
+	private double tempInsideSliderValue;
+	private double tempOutsideSliderValue;
 	private double windSpeedSliderValue;
 	private int timeSliderValue;
-
-	public double getTempSliderValue() {
-		return tempSliderValue;
+	
+	public double getTempOutsideSliderValue() {
+		return tempOutsideSliderValue;
 	}
 
-	public void setTempSliderValue(double tempSliderValue) {
-		this.tempSliderValue = tempSliderValue;
+	public double getTempInsideSliderValue() {
+		return tempInsideSliderValue;
 	}
+
 
 	public double getWindSpeedSliderValue() {
 		return windSpeedSliderValue;
 	}
 
-	public void setWindSpeedSliderValue(double windSpeedSliderValue) {
-		this.windSpeedSliderValue = windSpeedSliderValue;
-	}
 
 	public int getTimeSliderValue() {
 		return timeSliderValue;
-	}
-
-	public void setTimeSliderValue(int timeSliderValue) {
-		this.timeSliderValue = timeSliderValue;
 	}
 
 	/**
 	 * Creates new form Display
 	 */
 	public Display() {
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(Display.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(Display.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(Display.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(Display.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
 		initComponents();
 	}
 
@@ -68,7 +87,8 @@ public class Display extends javax.swing.JFrame implements ChangeListener {
 		jLabel2 = new javax.swing.JLabel();
 		jLabel3 = new javax.swing.JLabel();
 		windSpeedLabel = new javax.swing.JLabel();
-		temperatureLabel = new javax.swing.JLabel();
+		tempInsideLabel = new javax.swing.JLabel();
+		tempOutsideLabel = new JLabel("0");
 		timeLabel = new javax.swing.JLabel();
 		acStatusLabel = new javax.swing.JLabel();
 		blindsStatusLabel = new javax.swing.JLabel();
@@ -76,9 +96,14 @@ public class Display extends javax.swing.JFrame implements ChangeListener {
 		timeSlider = new javax.swing.JSlider(0, 2400, 1200);
 		timeSlider.addChangeListener(this);
 
-		tempSlider = new javax.swing.JSlider(0, 50, 25);
-		tempSlider.addChangeListener(this);
+		tempInsideSlider = new javax.swing.JSlider(0, 50, 25);
+		tempInsideSlider.addChangeListener(this);
 
+		tempOutsideSlider = new JSlider(0, 50, 25);
+		tempOutsideSlider.addChangeListener(this);
+		
+		
+		
 		windSpeedSlider = new javax.swing.JSlider(0, 200, 50);
 		windSpeedSlider.addChangeListener(this);
 
@@ -95,7 +120,7 @@ public class Display extends javax.swing.JFrame implements ChangeListener {
 
 		windSpeedLabel.setText("0");
 
-		temperatureLabel.setText("0");
+		tempInsideLabel.setText("0");
 
 		timeLabel.setText("00:00");
 
@@ -103,68 +128,131 @@ public class Display extends javax.swing.JFrame implements ChangeListener {
 		acStatusLabel.setText("ON");
 
 		blindsStatusLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/blinds.png"))); // NOI18N
-		blindsStatusLabel.setText("OFF");
+		blindsStatusLabel.setText("OPEN");
+		
+		JLabel lblNewLabel = new JLabel("Inside");
+		
+		lblOutside = new JLabel("Outside");
+		
+		
+		lblAcTemp = new JLabel("AC TEMP:");
+		
+		acTempLabel = new JLabel("0");
+		
+		JCheckBox chckbxLiveMode = new JCheckBox("Live Mode");
+		chckbxLiveMode.setSelected(true);
+		chckbxLiveMode.addItemListener(new ItemListener() {
+		    public void itemStateChanged(ItemEvent e) {
+		        if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
+		            Properties.testingMode = false;
+		        } else {//checkbox has been deselected
+		            Properties.testingMode = true;
+		        };
+		    }
+		});
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-				.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup().addGap(18, 18, 18).addComponent(acStatusLabel))
-						.addGroup(layout.createSequentialGroup().addGap(132, 132, 132).addComponent(blindsStatusLabel)))
-				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-								.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-										.addGroup(layout.createSequentialGroup().addComponent(jLabel2)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(windSpeedLabel))
-										.addGroup(layout.createSequentialGroup().addComponent(jLabel3)
-												.addGap(18, 18, 18).addComponent(timeLabel))
-										.addGroup(layout.createSequentialGroup().addComponent(jLabel1)
-												.addGap(18, 18, 18).addComponent(temperatureLabel)))
-								.addGap(87, 87, 87))
-						.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-								layout.createSequentialGroup()
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-												.addComponent(tempSlider, javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(windSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGap(52, 52, 52)))));
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(18)
+					.addComponent(acStatusLabel)
+					.addGap(50)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(jLabel3)
+							.addGap(18)
+							.addComponent(timeLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(timeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(jLabel1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(lblNewLabel)
+									.addGap(18)
+									.addComponent(tempInsideLabel))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(lblOutside)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tempOutsideLabel)))
+							.addGap(18)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(tempOutsideSlider, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tempInsideSlider, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(chckbxLiveMode)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(jLabel2)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(windSpeedLabel)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(windSpeedSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(20))
+				.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+					.addGap(122)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addComponent(blindsStatusLabel)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblAcTemp)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(acTempLabel)))
+					.addGap(498))
+		);
 		layout.setVerticalGroup(
-				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-						.createSequentialGroup().addGroup(layout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addGroup(layout
-										.createSequentialGroup().addGap(57, 57, 57).addGroup(
-												layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(timeLabel).addComponent(jLabel3))
-										.addGap(7, 7, 7)
-										.addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(jLabel1).addComponent(temperatureLabel))
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(tempSlider, javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(jLabel2).addComponent(windSpeedLabel)))
-								.addGroup(layout.createSequentialGroup().addGap(45, 45, 45).addComponent(acStatusLabel)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(blindsStatusLabel)))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(windSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(20, Short.MAX_VALUE)));
+			layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+					.addGap(45)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+							.addGap(11)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(jLabel3)
+									.addComponent(timeLabel))
+								.addGroup(layout.createSequentialGroup()
+									.addGap(11)
+									.addComponent(timeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(33)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(jLabel1)
+										.addComponent(lblNewLabel)
+										.addComponent(tempInsideLabel))
+									.addGap(18)
+									.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblOutside)
+										.addComponent(tempOutsideLabel)))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(tempInsideSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(tempOutsideSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addGap(18)
+									.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(jLabel2)
+										.addComponent(windSpeedLabel)))
+								.addGroup(layout.createSequentialGroup()
+									.addGap(29)
+									.addComponent(windSpeedSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(chckbxLiveMode)
+							.addContainerGap())
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(acStatusLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(acTempLabel)
+								.addComponent(lblAcTemp))
+							.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+							.addComponent(blindsStatusLabel)
+							.addGap(43))))
+		);
+		getContentPane().setLayout(layout);
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
@@ -214,26 +302,38 @@ public class Display extends javax.swing.JFrame implements ChangeListener {
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel windSpeedLabel;
-	private javax.swing.JLabel temperatureLabel;
+	private javax.swing.JLabel tempInsideLabel;
 	private javax.swing.JLabel timeLabel;
 	private javax.swing.JLabel acStatusLabel;
 	private javax.swing.JLabel blindsStatusLabel;
 	private javax.swing.JSlider timeSlider;
-	private javax.swing.JSlider tempSlider;
+	private javax.swing.JSlider tempInsideSlider;
 	private javax.swing.JSlider windSpeedSlider;
+	private JLabel lblOutside;
+	private JLabel tempOutsideLabel;
+	private JSlider tempOutsideSlider;
+	private JLabel lblAcTemp;
+	private JLabel acTempLabel;
 	// End of variables declaration//GEN-END:variables
 
 	/** Listen to the slider. */
 	public void stateChanged(ChangeEvent e) {
 		this.timeSliderValue = timeSlider.getValue();
-		this.tempSliderValue = tempSlider.getValue();
+		this.tempInsideSliderValue = tempInsideSlider.getValue();
+		this.tempOutsideSliderValue = tempOutsideSlider.getValue();
 		this.windSpeedSliderValue = windSpeedSlider.getValue();
-		System.out.println("Values: " + timeSliderValue + "," + tempSliderValue + "," + windSpeedSliderValue);
+		System.out.println("Values: " + timeSliderValue + "," + tempInsideSliderValue + "," + tempOutsideSliderValue + "," + windSpeedSliderValue);
 	}
 
-	public void updateInfo(double temp, double windSpeed, int time, boolean acIsOn, boolean blindsIsOpen) {
+	public void updateInfo(double tempInside, double tempOutside, double acTemp, double windSpeed, int time, boolean acIsOn, boolean blindsIsOpen) {
 
-		temperatureLabel.setText("" + temp);
+		tempInsideLabel.setText("" + tempInside);
+		tempOutsideLabel.setText("" + tempOutside);
+		if(acTemp!=0){			
+			acTempLabel.setText("" + acTemp);
+		}else{
+			acTempLabel.setText("OFF");
+		}
 		windSpeedLabel.setText("" + windSpeed);
 		String timeString = "" + time;
 		if (timeString.length() < 3) {

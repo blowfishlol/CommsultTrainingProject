@@ -24,6 +24,7 @@ public class AirConditionerController extends DeviceController{
 			ac.setAirConditionerTemperature(20 + acTempOffset);
 			ac.setOn(true);
 		}else{
+			ac.setAirConditionerTemperature(0);
 			ac.setOn(false);
 		}
 		

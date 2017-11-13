@@ -1,7 +1,5 @@
 package id.ac.sgu.commsult.smarthome.controller;
 
-import java.util.Observable;
-import java.util.Observer;
 
 import id.ac.sgu.commsult.smarthome.properties.Properties;
 import id.ac.sgu.commsult.smarthome.sensor.SensorReader;
@@ -12,7 +10,7 @@ public class MainController implements Controller {
 	private AirConditionerController acc;
 	private BlindsController bc;
 	private SensorReader sr;
-	private Display disp;
+	private DisplayController dc;
 	// flag to check if the controller should update or not
 	private boolean flag = true;
 
@@ -21,8 +19,9 @@ public class MainController implements Controller {
 		acc = new AirConditionerController();
 		bc = new BlindsController();
 		sr = new SensorReader();
-		disp = new Display();
-		disp.setVisible(true);
+		dc = new DisplayController();
+		
+
 		// gets the sensor reader values and send to air conditioner and blinds
 		// controller
 		try {
@@ -41,30 +40,35 @@ public class MainController implements Controller {
 							sr.getWindSpeed(), 
 							sr.getTime());
 					
-					double averageTemperature = (sr.getTemperatureInside() + sr.getTemperatureOutside()) / 2.0;
+					//double averageTemperature = (sr.getTemperatureInside() + sr.getTemperatureOutside()) / 2.0;
 					
 					//updates to display with values from sensor
-					disp.updateInfo(averageTemperature, 
+					dc.updateInfo(sr.getTemperatureInside(),
+							sr.getTemperatureOutside(),
+							acc.getAirConditionerTemperature(),
 							sr.getWindSpeed(), 
 							sr.getTime(), 
 							acc.airConditionerIsOn(),
 							bc.blindsIsOpen());
 				}else{
 					
-					//Updates to controller with value from slider
-					giveUpdate(disp.getTempSliderValue(), 
-							disp.getTempSliderValue(), 
-							disp.getWindSpeedSliderValue(), 
-							disp.getTimeSliderValue());
+					//Updates sends update to both controllers about the info of environment from the slider
+					giveUpdate(dc.getTempInsideSliderValue(), 
+							dc.getTempOutsideSliderValue(), 
+							dc.getWindSpeedSliderValue(), 
+							dc.getTimeSliderValue());
 					
 					//updates to display with value from slider
-					disp.updateInfo(disp.getTempSliderValue(), 
-							disp.getWindSpeedSliderValue(), 
-							disp.getTimeSliderValue(), 
+					dc.updateInfo(dc.getTempInsideSliderValue(), 
+							dc.getTempOutsideSliderValue(),
+							acc.getAirConditionerTemperature(),
+							dc.getWindSpeedSliderValue(), 
+							dc.getTimeSliderValue(), 
 							acc.airConditionerIsOn(),
 							bc.blindsIsOpen());
 				}
 				//PRINT TO CONSOLE
+				
 				System.out.print("\nAC status: ");
 				if (acc.airConditionerIsOn()) {
 					System.out.print("On -- Temperature: " + acc.getAirConditionerTemperature());
