@@ -1,4 +1,4 @@
-package id.ac.sgu.commsult.smartphone.properties;
+package id.ac.sgu.commsult.smarthome.properties;
 
 public final class Properties {
 

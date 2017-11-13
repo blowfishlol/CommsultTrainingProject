@@ -3,7 +3,7 @@ package id.ac.sgu.commsult.smarthome.sensor;
 import java.util.Observable;
 import java.util.Random;
 
-import id.ac.sgu.commsult.smartphone.properties.Properties;
+import id.ac.sgu.commsult.smarthome.properties.Properties;
 
 public class Time extends Observable implements Runnable {
 	private int time = 0;

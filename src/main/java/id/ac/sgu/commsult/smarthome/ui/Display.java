@@ -15,7 +15,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import id.ac.sgu.commsult.smartphone.properties.Properties;
+import id.ac.sgu.commsult.smarthome.properties.Properties;
 
 public class Display extends javax.swing.JFrame implements ChangeListener {
 

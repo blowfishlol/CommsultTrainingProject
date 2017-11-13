@@ -3,9 +3,9 @@ package id.ac.sgu.commsult.smarthome.controller;
 import java.util.Observable;
 import java.util.Observer;
 
+import id.ac.sgu.commsult.smarthome.properties.Properties;
 import id.ac.sgu.commsult.smarthome.sensor.SensorReader;
 import id.ac.sgu.commsult.smarthome.ui.Display;
-import id.ac.sgu.commsult.smartphone.properties.Properties;
 
 public class MainController implements Controller {
 
