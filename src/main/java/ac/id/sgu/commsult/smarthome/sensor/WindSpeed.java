@@ -28,7 +28,7 @@ public class WindSpeed extends Observable implements Runnable {
 	//get new wind speed and notifying observer
 	public void refresh(){
 		Random rand = new Random();
-		setWind(rand.nextInt(40) + 0);
+		setWind(rand.nextInt(200) + 0);
 		//System.out.println("Wind Speed: " + getWind());
 		setChanged();
 		notifyObservers(windSpeed);
