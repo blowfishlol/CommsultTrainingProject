@@ -33,8 +33,38 @@ public class MainController implements Controller {
 		while (flag) {
 			try {
 				Thread.sleep(Properties.SLEEP_TIME);
-				giveUpdate(sr.getTemperatureInside(), sr.getTemperatureOutside(), sr.getWindSpeed(), sr.getTime());
-
+				if(!Properties.testingMode){	
+					
+					//updates to controllers with value from sensor
+					giveUpdate(sr.getTemperatureInside(), 
+							sr.getTemperatureOutside(), 
+							sr.getWindSpeed(), 
+							sr.getTime());
+					
+					double averageTemperature = (sr.getTemperatureInside() + sr.getTemperatureOutside()) / 2.0;
+					
+					//updates to display with values from sensor
+					disp.updateInfo(averageTemperature, 
+							sr.getWindSpeed(), 
+							sr.getTime(), 
+							acc.airConditionerIsOn(),
+							bc.blindsIsOpen());
+				}else{
+					
+					//Updates to controller with value from slider
+					giveUpdate(disp.getTempSliderValue(), 
+							disp.getTempSliderValue(), 
+							disp.getWindSpeedSliderValue(), 
+							disp.getTimeSliderValue());
+					
+					//updates to display with value from slider
+					disp.updateInfo(disp.getTempSliderValue(), 
+							disp.getWindSpeedSliderValue(), 
+							disp.getTimeSliderValue(), 
+							acc.airConditionerIsOn(),
+							bc.blindsIsOpen());
+				}
+				//PRINT TO CONSOLE
 				System.out.print("\nAC status: ");
 				if (acc.airConditionerIsOn()) {
 					System.out.print("On -- Temperature: " + acc.getAirConditionerTemperature());
@@ -48,9 +78,10 @@ public class MainController implements Controller {
 				} else {
 					System.out.print("Closed");
 				}
-				double averageTemperature =(sr.getTemperatureInside()+ sr.getTemperatureOutside())/2.0;
-				disp.updateInfo(averageTemperature, sr.getWindSpeed(), sr.getTime(), acc.airConditionerIsOn(), bc.blindsIsOpen());
 				
+				
+				
+
 				System.out.println("\n-----------------------");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -65,5 +96,6 @@ public class MainController implements Controller {
 		bc.giveUpdate(tempInside, tempOutside, windSpeed, time);
 
 	}
+
 
 }

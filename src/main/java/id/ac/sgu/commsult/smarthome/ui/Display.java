@@ -15,6 +15,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import id.ac.sgu.commsult.smartphone.properties.Properties;
+
 public class Display extends javax.swing.JFrame implements ChangeListener {
 
 	private double tempSliderValue;
@@ -241,9 +243,15 @@ public class Display extends javax.swing.JFrame implements ChangeListener {
 		}
 		System.out.println(timeString);
 
-		String minute = timeString.substring(2, 4);
+		int minute = Integer.parseInt(timeString.substring(2, 4));
+		minute = minute * 6 / 10;
+		String minuteString = ""+minute;
+		if(minuteString.length() < 2){
+			minuteString = "0"+minuteString;
+		}
+		
 		String hour = timeString.substring(0, 2);
-		timeLabel.setText(hour + ":" + minute);
+		timeLabel.setText(hour + ":" + minuteString);
 
 		if (acIsOn) {
 			acStatusLabel.setText("ON");

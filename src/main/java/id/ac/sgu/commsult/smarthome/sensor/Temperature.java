@@ -23,7 +23,9 @@ public class Temperature extends Observable implements Runnable {
 		try {
 			while (true) {
 
-				refresh();
+				if (!Properties.testingMode) {
+					refresh();
+				}
 				thread.sleep(Properties.SLEEP_TIME);
 			}
 		} catch (Exception e) {
@@ -45,7 +47,7 @@ public class Temperature extends Observable implements Runnable {
 	public void setTemp(double temp) {
 		this.temp = temp;
 	}
-	
+
 	public char getLocation() {
 		return location;
 	}
@@ -55,6 +57,5 @@ public class Temperature extends Observable implements Runnable {
 		setChanged();
 		notifyObservers();
 	}
-
 
 }

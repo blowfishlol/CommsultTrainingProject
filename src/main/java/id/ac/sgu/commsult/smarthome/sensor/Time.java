@@ -19,18 +19,18 @@ public class Time extends Observable implements Runnable {
 		try {
 			setTime(0);
 			while (true) {
-				if(!Properties.testingMode){
-					refresh();					
+				if (!Properties.testingMode) {
+					refresh();
 				}
 				thread.sleep(Properties.SLEEP_TIME);
 			}
 		} catch (Exception e) {
 		}
 	}
-	
-	//get a new value for time and notifying observer
-	public void refresh(){
-		//System.out.println("Time: " + getTime());
+
+	// get a new value for time and notifying observer
+	public void refresh() {
+		// System.out.println("Time: " + getTime());
 		if (time == 2400) {
 			setTime(0);
 		} else {
