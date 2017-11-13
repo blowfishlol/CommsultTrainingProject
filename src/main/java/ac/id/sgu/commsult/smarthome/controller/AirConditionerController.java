@@ -23,4 +23,7 @@ public class AirConditionerController extends DeviceController{
 	}
 
 
+	public boolean airConditionerIsOn(){
+		return ac.isOn();
+	}
 }
