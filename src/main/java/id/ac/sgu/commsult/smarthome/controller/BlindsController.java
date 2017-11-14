@@ -15,7 +15,9 @@ public class BlindsController extends DeviceController{
 
 	public void giveUpdate(double tempInside, double tempOutside, double windSpeed, int time){
 		
-		if(isWindy(windSpeed) ||  isNight(time) || isHot(tempOutside)){
+		double tempAverage = (tempInside+tempOutside)/2;
+		
+		if(isWindy(windSpeed) ||  isNight(time) || isHot(tempAverage)){
 			b.setOpen(false);
 		}else{
 			b.setOpen(true);
